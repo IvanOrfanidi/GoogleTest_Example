@@ -1,8 +1,8 @@
 # Version CMake
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.10)
 
 # Project name
-project(tests)
+project(main)
 
 # Directory googletest
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/googletest")
@@ -31,17 +31,28 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clan
 endif()
 
 # Source files
-set(TEST_SOURCES
-    test/test_equal.cpp
-    test/test_sum.cpp
-    test/test_min.cpp
-    test/test_counting_zeros.cpp
+set(SOURCES
+    src/main.cpp
     src/equal.cpp
     inc/equal.h
     src/sum.cpp
     inc/sum.h
     inc/min.h
-    inc/counting_zeros.h
+    inc/less_than_zero.h
+)
+
+# Source tests files
+set(TEST_SOURCES
+    test/test_equal.cpp
+    test/test_sum.cpp
+    test/test_min.cpp
+    test/test_less_than_zero.cpp
+    src/equal.cpp
+    inc/equal.h
+    src/sum.cpp
+    inc/sum.h
+    inc/min.h
+    inc/less_than_zero.h
 )
 
 # Include directories
@@ -49,11 +60,14 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Compiling target
-add_executable(${PROJECT_NAME} ${TEST_SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Link target
+# Compiling target for tests
+add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
+
+# Link target with gtest
 target_link_libraries(
-    ${PROJECT_NAME}
+    ${PROJECT_NAME}_tests
     gtest
     gtest_main
 )

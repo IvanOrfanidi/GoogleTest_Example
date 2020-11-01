@@ -3,7 +3,7 @@ build:
   - git submodule init
   - git submodule update
   - ./compile.sh
-  - ./build/tests
+  - ./build/main_tests
   after_script:
   - cd /media/storage/gitlab/
   - sudo rm -rf GoogleTest_Example
