@@ -16,7 +16,7 @@ pipeline {
 
         stage('run tests') {
             steps {
-                sh 'build/tests'
+                sh 'build/main_tests'
             }
         }
 
