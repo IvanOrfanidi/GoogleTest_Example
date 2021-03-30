@@ -6,8 +6,8 @@ build:
   - ./build/main_tests
   after_script:
   - cd /media/storage/gitlab/
-  - sudo rm -rf GoogleTest_Example
-  - git clone http://192.168.109.15/root/GoogleTest_Example.git
+  - rm -rf GoogleTest_Example
+  - git clone http://git.home.lan/root/GoogleTest_Example.git
   - cd GoogleTest_Example
   - git submodule init
   - git submodule update
