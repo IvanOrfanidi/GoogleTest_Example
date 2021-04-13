@@ -5,29 +5,12 @@ cmake_minimum_required(VERSION 3.10)
 project(main)
 
 # Directory googletest
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/googletest")
+if(TEST)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/googletest")
+endif()
 
 # Options
 set(CMAKE_CXX_STANDARD 11)
-
-# Compiler-specific options
-if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
-    add_compile_options(
-        -Werror
-        -Wall
-        -Wextra
-        -Wpedantic
-        -Wcast-align
-        -Wcast-qual
-        -Wenum-compare
-        -Wfloat-equal
-        -Wnon-virtual-dtor
-        -Woverloaded-virtual
-        -Wredundant-decls
-        -Wsign-promo
-        -Wno-deprecated-declarations
-    )
-endif()
 
 # Source files
 set(SOURCES
@@ -51,7 +34,9 @@ set(TEST_SOURCES
 )
 
 # Include directories
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include")
+if(TEST)
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include")
+endif()
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Set build type
@@ -62,12 +47,13 @@ endif(NOT CMAKE_BUILD_TYPE)
 # Compiling target
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Compiling target for tests
-add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
+if(TEST)
+    # Compiling target for tests
+    add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
 
-# Link target with gtest
-target_link_libraries(
-    ${PROJECT_NAME}_tests
-    gtest
-    gtest_main
-)
+    # Link target with gtest
+    target_link_libraries(${PROJECT_NAME}_tests
+        gtest
+        gtest_main
+    )
+endif()
